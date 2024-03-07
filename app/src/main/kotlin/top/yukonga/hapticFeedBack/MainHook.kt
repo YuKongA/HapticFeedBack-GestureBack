@@ -31,7 +31,7 @@ class MainHook : IXposedHookLoadPackage {
                 hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureReadyBack\$11\$HapticFeedbackCompatV2").first().createHook {
                     replace {
                         val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
-                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 162)
+                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 0)
                     }
                 }
 
@@ -43,7 +43,7 @@ class MainHook : IXposedHookLoadPackage {
                 hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureBackHandUp\$12\$HapticFeedbackCompatV2").first().createHook {
                     replace {
                         val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
-                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 163)
+                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 1)
                     }
                 }
 
