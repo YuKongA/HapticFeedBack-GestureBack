@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.util.Properties
 
@@ -8,13 +10,13 @@ plugins {
 
 android {
     namespace = "top.yukonga.hapticFeedBack"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = namespace
         minSdk = 34
-        targetSdk = 34
-        versionCode = 101
-        versionName = "1.0.1"
+        targetSdk = 35
+        versionCode = 102
+        versionName = "1.0.2"
     }
     val properties = Properties()
     runCatching { properties.load(project.rootProject.file("local.properties").inputStream()) }
@@ -44,30 +46,19 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isShrinkResources = true
+            vcsInfo.include = false
+            proguardFiles("proguard-rules.pro")
             signingConfig = signingConfigs.getByName(if (keystorePath != null) "github" else "release")
         }
         debug {
             if (keystorePath != null) signingConfig = signingConfigs.getByName("github")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf(
-            "-Xno-param-assertions",
-            "-Xno-call-assertions",
-            "-Xno-receiver-assertions",
-            "-language-version=2.0",
-        )
-    }
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+    kotlin.jvmToolchain(21)
     packaging {
-        resources {
-            excludes += "**"
-        }
+        resources.excludes += "**"
         applicationVariants.all {
             outputs.all {
                 (this as BaseVariantOutputImpl).outputFileName = "HapticFeedBack-$versionName.apk"
