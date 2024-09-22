@@ -181,6 +181,7 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 ### Kotlin ###
+/.kotlin
 # Compiled class file
 
 # Log file

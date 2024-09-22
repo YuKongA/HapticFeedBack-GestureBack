@@ -11,10 +11,10 @@
 
         <meta-data
             android:name="xposeddescription"
-            android:value="Change Haptic V2 device MiuiHome gesture haptic feedback to legacy version." />
+            android:value="Added haptic feedback for HapticV2 devices when releasing the back gesture." />
 
         <meta-data
             android:name="xposedminversion"
-            android:value="93" />
+            android:value="82" />
     </application>
 </manifest>

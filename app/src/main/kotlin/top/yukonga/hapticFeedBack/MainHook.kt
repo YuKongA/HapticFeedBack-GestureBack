@@ -28,10 +28,19 @@ class MainHook : IXposedHookLoadPackage {
                     XposedHelpers.callStaticMethod(timeOutBlocker, "startCountDown", getHandler, 140L, "BLOCKER_ID_FOR_HAPTIC_GESTURE_BACK")
                 }
 
-                hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureReadyBack\$11\$HapticFeedbackCompatV2").first().createHook {
-                    replace {
-                        val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
-                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 162)
+                try {
+                    hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureReadyBack\$11").first().createHook {
+                        replace {
+                            val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
+                            XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 0)
+                        }
+                    }
+                } catch (e: Exception) {
+                    hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureReadyBack\$11\$HapticFeedbackCompatV2").first().createHook {
+                        replace {
+                            val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
+                            XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 0)
+                        }
                     }
                 }
 
@@ -40,17 +49,25 @@ class MainHook : IXposedHookLoadPackage {
                     if (isBlocked) it.result = null
                 }
 
-                hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureBackHandUp\$12\$HapticFeedbackCompatV2").first().createHook {
-                    replace {
-                        val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
-                        XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 163)
+                try {
+                    hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureBackHandUp\$12").first().createHook {
+                        replace {
+                            val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
+                            XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 1)
+                        }
+                    }
+                } catch (e: Exception) {
+                    hapticFeedbackCompatV2.methodFinder().filterByName("lambda\$performGestureBackHandUp\$12\$HapticFeedbackCompatV2").first().createHook {
+                        replace {
+                            val mHapticHelper = it.thisObject.objectHelper().getObjectOrNull("mHapticHelper")
+                            XposedHelpers.callMethod(mHapticHelper, "performExtHapticFeedback", 1)
+                        }
                     }
                 }
 
                 gestureStubView.methodFinder().filterByName("injectKeyEvent").filterByParamCount(2).first().createBeforeHook {
                     it.args[1] = true
                 }
-
             }
 
             else -> return
